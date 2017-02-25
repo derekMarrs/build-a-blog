@@ -47,14 +47,15 @@ class New(Handler):
         self.render_new()
 
     def post(self):
+        t = jinja_env.get_template("single-blog.html")
         title = self.request.get("title")
         post = self.request.get("post")
 
         if title and post:
             p = Post(title = title, post = post)
             p.put()
-
-            self.redirect("/")
+            content = t.render(title = title, post = post)
+            self.response.write(content)
         else:
             error = "we need both a title and a post!"
             self.render_new(title, post, error = error)
