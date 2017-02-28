@@ -54,8 +54,9 @@ class New(Handler):
         if title and post:
             p = Post(title = title, post = post)
             p.put()
-            content = t.render(title = title, post = post)
-            self.response.write(content)
+            #content = t.render(title = title, post = post)
+            self.redirect("/blog/" + str(p.key().id()))
+            return
         else:
             error = "we need both a title and a post!"
             self.render_new(title, post, error = error)
